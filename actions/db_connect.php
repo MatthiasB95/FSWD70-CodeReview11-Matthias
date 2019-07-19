@@ -1,18 +1,18 @@
 <?php 
 
-$localhost = "127.0.0.1"; 
+$localhost = "localhost"; 
 $username = "root"; 
 $password = ""; 
 $dbname = "cr11_matthias_travelmatic"; 
 
 // create connection 
-$connect = new  mysqli($localhost, $username, $password, $dbname); 
+$conn = new  mysqli($localhost, $username, $password, $dbname); 
 
 // check connection 
-if($connect->connect_error) {
-    die("connection failed: " . $connect->connect_error);
+if($conn->connect_error) {
+    die("connection failed: " . $conn->connect_error);
 } else {
-    // echo "Successfully Connected";
+    //echo "Successfully Connected";
 }
 
 ?>
