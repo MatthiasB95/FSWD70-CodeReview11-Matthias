@@ -10,16 +10,7 @@ if($conn === false){
  
 if(isset($_REQUEST["term"])){
     // Prepare a select statement
-    $sql = "SELECT conName, todoName,  resName FROM users 
-    RIGHT JOIN restaurants ON  restaurants.res_id = users.res_id
-    RIGHT JOIN concerts ON concerts.con_id =  users.con_id
-    RIGHT JOIN todo ON todo.todo_id =  users.todo_id
-    UNION
-SELECT conName, todoName,  resName FROM users 
-    LEFT JOIN restaurants ON  restaurants.res_id = users.res_id
-    LEFT JOIN concerts ON concerts.con_id =  users.con_id
-    LEFT JOIN todo ON todo.todo_id =  users.todo_id
-    WHERE conName LIKE ? AND todoName LIKE ? AND resName LIKE ?";
+    $sql = "SELECT conName FROM concerts WHERE conName LIKE ?";
     
     if($stmt = mysqli_prepare($conn, $sql)){
         // Bind variables to the prepared statement as parameters
