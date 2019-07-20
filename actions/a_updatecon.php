@@ -7,10 +7,7 @@ if ($_POST) {
    $price = $_POST['conPrice'];
    $web = $_POST[ 'conWeb'];
    $name = $_POST[ 'conName'];
-   $city = $_POST[ 'cityCon'];
-   $zip = $_POST[ 'zipcodeCon'];
-   $add = $_POST[ 'addressCon'];
-   $img = $_POST[ 'imageCon'];
+
 
    $id = $_POST['id'];
 

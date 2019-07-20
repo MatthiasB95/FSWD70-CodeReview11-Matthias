@@ -8,10 +8,7 @@ if ($_POST) {
    $type = $_POST[ 'resType'];
    $descr = $_POST[ 'resDescription'];
    $web = $_POST[ 'resWeb'];
-   $city = $_POST[ 'cityRest'];
-   $zip = $_POST[ 'zipcodeRest'];
-   $add = $_POST[ 'addressRest'];
-   $img = $_POST[ 'imageRest'];
+
 
    $id = $_POST['id'];
 

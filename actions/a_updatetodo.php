@@ -14,7 +14,7 @@ if ($_POST) {
 
    $id = $_POST['id'];
 
-   $sql = "UPDATE todo, locationtodo SET todoName = '$name', todoType = '$type', todoDescription = '$descr', todoWeb = '$web', cityToDo = '$city', zipcodeToDo = '$zip', addressToDo = '$add', imageToDo = '$img' WHERE todo_id = {$id} AND locToDo_id = {$id} AND locToDo_id = todo_id" ;
+   $sql = "UPDATE todo, locationtodo SET todoName = '$name', todoType = '$type', todoDescription = '$descr', todoWeb = '$web', cityToDo = '$city', zipcodeToDo = '$zip', addressToDo = '$add', imageToDo = '$img' WHERE todo_id = {$id}" ;
 
    if($conn->query($sql) === TRUE) {
        echo  "<p>Successfully Updated</p>";
