@@ -5,7 +5,9 @@ require_once 'actions/db_connect.php';
 if ($_GET['id']) {
    $id = $_GET['id'];
 
-   $sql = "SELECT * FROM restaurants WHERE res_id = {$id}" ;
+   $sql = "SELECT * FROM restaurants 
+           INNER JOIN locationrest ON locationrest.locRest_id = restaurants.locRest_id
+           WHERE res_id = {$id}" ;
    $result = $conn->query($sql);
 
    $data = $result->fetch_assoc();
@@ -58,6 +60,22 @@ if ($_GET['id']) {
            <tr>
                <th>Website</th>
                <td><input type ="text" name= "resWeb"  value= "<?php echo $data['resWeb'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>City</th>
+               <td><input type ="text" name= "cityREst"  value= "<?php echo $data['cityREst'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Zipcode</th>
+               <td><input type ="text" name= "zipcodeRest"  value= "<?php echo $data['zipcodeRest'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Address</th>
+               <td><input type ="text" name= "addressRest"  value= "<?php echo $data['addressRest'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Image</th>
+               <td><input type ="text" name= "imageRest"  value= "<?php echo $data['imageRest'] ?>"/></td>
            </tr>
            <tr>
                <input type= "hidden" name= "id" value= "<?php echo $data['res_id']?>"/>

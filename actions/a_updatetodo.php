@@ -7,10 +7,15 @@ if ($_POST) {
    $type = $_POST['todoType'];
    $descr = $_POST[ 'todoDescription'];
    $web = $_POST[ 'todoWeb'];
+   $city = $_POST[ 'cityToDo'];
+   $zip = $_POST[ 'zipcodeToDo'];
+   $add = $_POST[ 'addressToDo'];
+   $img = $_POST[ 'imageToDo'];
 
    $id = $_POST['id'];
 
-   $sql = "UPDATE todo SET todoName = '$name', todoType = '$type', todoDescription = '$descr', todoWeb = '$web' WHERE todo_id = {$id}" ;
+   $sql = "UPDATE todo, locationtodo SET todoName = '$name', todoType = '$type', todoDescription = '$descr', todoWeb = '$web', cityToDo = '$city', zipcodeToDo = '$zip', addressToDo = '$add', imageToDo = '$img' WHERE todo_id = {$id} AND locToDo_id = {$id} AND locToDo_id = todo_id" ;
+
    if($conn->query($sql) === TRUE) {
        echo  "<p>Successfully Updated</p>";
        echo "<a href='../updatetodo.php?id=" .$id."'><button type='button'>Back</button></a>";

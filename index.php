@@ -46,6 +46,7 @@ if( isset($_POST['btn-login']) ) {
   $count = mysqli_num_rows($res); // if uname/pass is correct it returns must be 1 row 
   
   if( $count == 1 && $row['userPass'] == $password ) {
+    
     if($row['status'] == 'admin'){
       $_SESSION['admin'] = $row['user_id'];
       header ('Location: home.php');
@@ -102,12 +103,12 @@ if( isset($_POST['btn-login']) ) {
             
             <input type="email" name="email"  class="form-control" placeholder= "Your Email"  maxlength="40" />
         
-            <span class="text-danger"><?php echo $emailError; ?></span >
+            <span class="text-danger"> <?php echo $emailError; ?> </span >
   
           
             <input  type="password" name="pass"  class="form-control" placeholder ="Your Password" maxlength="15"  />
         
-           <span  class="text-danger"><?php echo $passError; ?></span>
+           <span  class="text-danger"> <?php echo $passError; ?> </span>
 
             <hr/>
 

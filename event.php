@@ -3,6 +3,12 @@
 <html>
 <head>
 	<title>Events</title>
+  <style type="text/css">
+    img{
+      height: 100px;
+      width: 100px;
+    }
+  </style>
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -27,13 +33,14 @@
 
 <div class ="manageUser">
    <h1>Concerts</h1>
-   <table  border="1" cellspacing= "0" cellpadding="0">
+   <table class="table table-striped table-bordered table-responsive">
        <thead>
        	<tr>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Name</th>
-            <th>City</th>
+          <th>Date</th>
+          <th>Price</th>
+          <th>Website</th>
+          <th>Name</th>
+          <th>City</th>
       		<th>Zipcode</th>
       		<th>Address</th>
       		<th>Image</th>
@@ -50,17 +57,16 @@
 
             if($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                   echo  "<tr>
-                      
-                       <td>" .$row['conDate']."</td>
-                       <td>" .$row['conPrice']."</td>
-                       <td>" .$row['conName']."</td>
-                       <td>" .$row['cityCon']."</td>
-                       <td>" .$row['zipcodeCon']."</td>
-                       <td>" .$row['addressCon']."</td>
-                       <td>" .$row['imageCon']."</td>
-                     
-                   </tr><br>" ;
+                    echo "<tr>";
+                    echo "<td>" . $row['conDate'] . "</td>";
+                    echo "<td>" . $row['conPrice'] . "</td>";
+                    echo "<td><a href=". $row['conWeb'] . ">".$row['conWeb']."</a></td>";
+                    echo "<td>". $row['conName']. "</td>";
+                    echo "<td>". $row['cityCon']. "</td>";
+                    echo "<td>". $row['zipcodeCon']. "</td>";
+                    echo "<td>". $row['addressCon']. "</td>";
+                    echo "<td><img src=".$row['imageCon'] ."></a></td>"; 
+                    echo "</tr>";
 
                }
            } else  {
@@ -73,12 +79,12 @@
 	</table>
 
 	<h1>Things To-Do</h1>
-    <table  border="1" cellspacing= "0" cellpadding="0">
+    <table class="table table-striped table-bordered table-responsive">
        <thead>
        	<tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
       		<th>Website</th>
       		<th>City</th>
       		<th>Zipcode</th>
@@ -94,17 +100,16 @@
             $result1 = $conn->query($sql1);
            if($result1->num_rows > 0) {
                 while($row = $result1->fetch_assoc()) {
-                   echo  "<tr>
-                       <td>" .$row['todoName']."</td>
-                       <td>" .$row['todoType']."</td>
-                       <td>" .$row['todoDescription']."</td>
-                       <td>" .$row['todoWeb']."</td>
-                       <td>" .$row['cityToDo']."</td>
-                       <td>" .$row['zipcodeToDo']."</td>
-                       <td>" .$row['addressToDo']."</td>
-                       <td>" .$row['imageToDo']."</td>
-                     
-                   </tr>" ;
+                   echo "<tr>";
+                    echo "<td>" . $row['todoName'] . "</td>";
+                    echo "<td>" . $row['todoType'] . "</td>";
+                    echo "<td>" .$row['todoDescription']. "</td>";
+                    echo "<td><a href=". $row['todoWeb'] . ">".$row['todoWeb']."</a></td>";
+                    echo "<td>". $row['cityToDo']. "</td>";
+                    echo "<td>". $row['zipcodeToDo']. "</td>";
+                    echo "<td>". $row['addressToDo']. "</td>";
+                    echo "<td><img src=".$row['imageToDo'] ."></a></td>"; 
+                    echo "</tr>";
                }
            } else  {
                echo  "<tr><td colspan='5'><center>No Data Avaliable</center></td></tr>";

@@ -5,10 +5,14 @@ require_once 'actions/db_connect.php';
 if ($_GET['id']) {
    $id = $_GET['id'];
 
-   $sql = "SELECT * FROM todo WHERE todo_id = {$id}" ;
+  $sql = "SELECT * FROM todo
+          INNER JOIN locationtodo ON locationtodo.locToDo_id = todo.locToDo_id 
+          WHERE todo_id = {$id}";
+
    $result = $conn->query($sql);
 
    $data = $result->fetch_assoc();
+
 
    $conn->close();
 
@@ -26,7 +30,7 @@ if ($_GET['id']) {
             width: 50%;
        }
 
-       table  tr th {
+       table tr th {
            padding-top: 20px;
        }
    </style>
@@ -38,11 +42,11 @@ if ($_GET['id']) {
    <legend>Update</legend>
 
    <form action="actions/a_updatetodo.php"  method="post">
-       <table  cellspacing="0" cellpadding= "0">
+       <table>
            <tr>
                <th>Name</th>
                <td><input type="text" name="todoName"  value="<?php echo $data['todoName'] ?>"  /></td>
-           </tr >     
+           </tr>     
            <tr>
                <th>Type</th>
                <td><input type= "text" name="todoType"  value ="<?php echo $data['todoType'] ?>" /></td >
@@ -54,6 +58,22 @@ if ($_GET['id']) {
            <tr>
                <th>Website</th>
                <td><input type ="text" name= "todoWeb"  value= "<?php echo $data['todoWeb'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>City</th>
+               <td><input type ="text" name= "cityToDo"  value= "<?php echo $data['cityToDo'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Zipcode</th>
+               <td><input type ="text" name= "zipcodeToDo"  value= "<?php echo $data['zipcodeToDo'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Address</th>
+               <td><input type ="text" name= "addressToDo"  value= "<?php echo $data['addressToDo'] ?>"/></td>
+           </tr>
+           <tr>
+               <th>Image</th>
+               <td><input type ="text" name= "imageToDo"  value= "<?php echo $data['imageToDo'] ?>"/></td>
            </tr>
            <tr>
                <input type= "hidden" name= "id" value= "<?php echo $data['todo_id']?>"/>

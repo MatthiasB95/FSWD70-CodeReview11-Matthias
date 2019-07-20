@@ -7,16 +7,75 @@
 
    <style type="text/css">
        .manageUser {
-           width : 50%;
-           
+           width : 100%;   
        }
 
         table {
-           width: 90%;
-           
+           width: 90%;    
        }
+       .search-box{
+        width: 300px;
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+    }
+    .search-box input[type="text"]{
+        height: 32px;
+        padding: 5px 10px;
+        border: 1px solid #CCCCCC;
+        font-size: 14px;
+    }
+    .result{
+        position: absolute;        
+        z-index: 999;
+        top: 100%;
+        left: 0;
+    }
+    .search-box input[type="text"], .result{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    /* Formatting result items */
+    .result p{
+        margin: 0;
+        padding: 7px 10px;
+        border: 1px solid #CCCCCC;
+        border-top: none;
+        cursor: pointer;
+    }
+    .result p:hover{
+        background: #f2f2f2;
+    }
+    img{
+      height: 100px;
+      width: 100px;
+    }
 
    </style>
+   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.search-box input[type="text"]').on("keyup input", function(){
+        /* Get input value on change */
+        var inputVal = $(this).val();
+        var resultDropdown = $(this).siblings(".result");
+        if(inputVal.length){
+            $.get("backend-search.php", {term: inputVal}).done(function(data){
+                // Display the returned data in browser
+                resultDropdown.html(data);
+            });
+        } else{
+            resultDropdown.empty();
+        }
+    });
+    
+    // Set search input value on click of result item
+    $(document).on("click", ".result p", function(){
+        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+        $(this).parent(".result").empty();
+    });
+});
+</script>
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
@@ -42,13 +101,18 @@
 
 <div class ="manageUser">
    <h1>Concerts</h1>
-   <table  border="1" cellspacing= "0" cellpadding="0">
+   <div class="search-box">
+        <input type="text" autocomplete="off" placeholder="Search country..." />
+        <div class="result"></div>
+    </div>
+   <table class="table table-striped table-bordered table-responsive">
        <thead>
        	<tr>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Name</th>
-            <th>City</th>
+          <th>Date</th>
+          <th>Price</th>
+          <th>Website</th>
+          <th>Name</th>
+          <th>City</th>
       		<th>Zipcode</th>
       		<th>Address</th>
       		<th>Image</th>
@@ -57,25 +121,25 @@
        </thead>
        <tbody>
 
-            <?php
-            $sql = "SELECT * FROM concerts 
-				   INNER JOIN locationcon ON concerts.locCon_id = locationcon.locCon_id";
+<?php
+  $sql = "SELECT * FROM concerts 
+				  INNER JOIN locationcon ON concerts.locCon_id = locationcon.locCon_id";
 			$result = $conn->query($sql);
 		   
 
             if($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                   echo  "<tr>
-                      
-                       <td>" .$row['conDate']."</td>
-                       <td>" .$row['conPrice']."</td>
-                       <td>" .$row['conName']."</td>
-                       <td>" .$row['cityCon']."</td>
-                       <td>" .$row['zipcodeCon']."</td>
-                       <td>" .$row['addressCon']."</td>
-                       <td>" .$row['imageCon']."</td>
-                     
-                   </tr><br>" ;
+                    echo "<tr>";
+                    echo "<td>" . $row['conDate'] . "</td>";
+                    echo "<td>" . $row['conPrice'] . "</td>";
+                    echo "<td><a href=". $row['conWeb'] . ">".$row['conWeb']."</a></td>";
+                    echo "<td>". $row['conName']. "</td>";
+                    echo "<td>". $row['cityCon']. "</td>";
+                    echo "<td>". $row['zipcodeCon']. "</td>";
+                    echo "<td>". $row['addressCon']. "</td>";
+                    echo "<td><img src=".$row['imageCon'] ."></a></td>"; 
+                    echo "</tr>";
+
 
                }
            } else  {
@@ -88,41 +152,40 @@
 	</table>
 
 	<h1>Restaurants</h1>
-    <table  border="1" cellspacing= "0" cellpadding="0">
+    <table class="table table-striped table-bordered table-responsive">
        <thead>
        	<tr>
-            <th>Name</th>
-            <th>Telephone</th>
-            <th>Type</th>
-            <th>Description</th>
+          <th>Name</th>
+          <th>Telephone</th>
+          <th>Type</th>
+          <th>Description</th>
       		<th>Website</th>
       		<th>City</th>
       		<th>Zipcode</th>
       		<th>Address</th>
       		<th>Image</th>
-      		<td><img src=""></td>
         </tr>
          
        </thead>
        <tbody>
 <?php
-       $sql1 = "SELECT * FROM restaurants 
+  $sql1 = "SELECT * FROM restaurants 
 				   INNER JOIN locationrest ON restaurants.locRest_id = locationrest.locRest_id";	   
             $result1 = $conn->query($sql1);
            if($result1->num_rows > 0) {
                 while($row = $result1->fetch_assoc()) {
-                   echo  "<tr>
-                       <td>" .$row['resName']."</td>
-                       <td>" .$row['resTel']."</td>
-                       <td>" .$row['resType']."</td>
-                       <td>" .$row['resDescription']."</td>
-                       <td>" .$row['resWeb']."</td>
-                       <td>" .$row['cityRest']."</td>
-                       <td>" .$row['zipcodeRest']."</td>
-                       <td>" .$row['addressRest']."</td>
-                       <td>" .$row['imageRest']."</td>
-                     
-                   </tr>" ;
+                  echo "<tr>";
+                    echo "<td>" . $row['resName'] . "</td>";
+                    echo "<td>" . $row['resTel'] . "</td>";
+                    echo "<td>" .$row['resType']. "</td>";
+                    echo "<td>". $row['resDescription']. "</td>";
+                    echo "<td><a href=". $row['resWeb'] . ">".$row['resWeb']."</a></td>";
+                    echo "<td>". $row['cityRest']. "</td>";
+                    echo "<td>". $row['zipcodeRest']. "</td>";
+                    echo "<td>". $row['addressRest']. "</td>";
+                    echo "<td><img src=".$row['imageRest'] ."></a></td>"; 
+                    echo "</tr>";
+                   
                }
            } else  {
                echo  "<tr><td colspan='5'><center>No Data Avaliable</center></td></tr>";
@@ -133,12 +196,12 @@
         </table>
 
         <h1>Things To-Do</h1>
-    <table  border="1" cellspacing= "0" cellpadding="0">
+    <table class="table table-striped table-bordered table-responsive">
        <thead>
        	<tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
       		<th>Website</th>
       		<th>City</th>
       		<th>Zipcode</th>
@@ -149,22 +212,22 @@
        </thead>
        <tbody>
 <?php
-       $sql1 = "SELECT * FROM todo 
+  $sql1 = "SELECT * FROM todo 
 				   INNER JOIN locationtodo ON todo.locToDo_id = locationtodo.locToDo_id";	   
             $result1 = $conn->query($sql1);
            if($result1->num_rows > 0) {
                 while($row = $result1->fetch_assoc()) {
-                   echo  "<tr>
-                       <td>" .$row['todoName']."</td>
-                       <td>" .$row['todoType']."</td>
-                       <td>" .$row['todoDescription']."</td>
-                       <td>" .$row['todoWeb']."</td>
-                       <td>" .$row['cityToDo']."</td>
-                       <td>" .$row['zipcodeToDo']."</td>
-                       <td>" .$row['addressToDo']."</td>
-                       <td>" .$row['imageToDo']."</td>
-                     
-                   </tr>" ;
+                  echo "<tr>";
+                    echo "<td>" . $row['todoName'] . "</td>";
+                    echo "<td>" . $row['todoType'] . "</td>";
+                    echo "<td>" .$row['todoDescription']. "</td>";
+                    echo "<td><a href=". $row['todoWeb'] . ">".$row['todoWeb']."</a></td>";
+                    echo "<td>". $row['cityToDo']. "</td>";
+                    echo "<td>". $row['zipcodeToDo']. "</td>";
+                    echo "<td>". $row['addressToDo']. "</td>";
+                    echo "<td><img src=".$row['imageToDo'] ."></a></td>"; 
+                    echo "</tr>";
+                   
                }
            } else  {
                echo  "<tr><td colspan='5'><center>No Data Avaliable</center></td></tr>";
